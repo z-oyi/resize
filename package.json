@@ -1,6 +1,6 @@
 {
   "name": "@oyi/resize",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
@@ -9,7 +9,10 @@
     "dev": "node dev.js"
   },
   "repository": "https://github.com/z-oyi/resize.git",
-  "keywords": ["resize", "oyi"],
+  "keywords": [
+    "resize",
+    "oyi"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
