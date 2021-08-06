@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "node dev.js"
   },
+  "repository": "https://github.com/z-oyi/resize.git",
   "keywords": ["resize", "oyi"],
   "author": "",
   "license": "ISC",
