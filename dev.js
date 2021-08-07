@@ -1,12 +1,14 @@
 const rollup = require('rollup')
-const resolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
+const pluginBabel = require('@rollup/plugin-buble')
+
 const ts = require('rollup-plugin-typescript2')
-const styles = require('rollup-plugin-styles')
 const path = require('path')
+const join = (...args) => path.resolve(...args);
 const browserSync = require("browser-sync").create();
 const getPath = _path => path.resolve(__dirname, _path)
-const packageJSON =  require('./package.json')
+const pkg =  require('./package.json')
+const dts = require('rollup-plugin-dts').default
+
 const extensions = [
     '.js',
     '.ts',
@@ -14,52 +16,52 @@ const extensions = [
 ]
 
 const tsPlugin = ts({
-    tsconfig: getPath('./tsconfig.json'), // 导入本地ts配置
+    tsconfig: getPath('./tsconfig.json'),
     extensions
 })
 
-
-
-const config = {
-    input: 'src/main.ts',
-    output: [
-        {
-            file: packageJSON.main, // 通用模块
+const config = [
+    {
+        input: join('./src/main.ts'),
+        output: {
+            file: join('./', pkg.main),
             format: 'umd',
-            name: 'oresize'
+            name: 'resize', 
         },
-        {
-            file: packageJSON.module, // es6模块
+        plugins: [
+            tsPlugin,
+            pluginBabel()
+        ],
+        
+    },
+    {
+        input: join('./src/main.ts'),
+        output: {
+            file: join('./', pkg.module),
             format: 'es',
-            name: 'oresize'
+            name: 'resize',
         },
-        {
-            file: 'dist/bundle.js',
-            format: 'umd',
-            name: 'oresize',
-            assetFileNames: "[name][extname]"
-        }
-    ],
-    plugins: [
-        styles({
-            mode: "extract"
-        }),
-        resolve(extensions),
-        commonjs(),
-        tsPlugin,
-    ]
-};
+        plugins: [tsPlugin]
+    },
+    {
+        input: join('./src/main.ts'),
+        output: {
+          file: join('./', pkg.types),
+          format: 'es',
+        },
+        plugins: [dts()],
+    },
+]
+
 const watcher = rollup.watch(config)
 watcher.on('event', event => {
     if (event.code === 'END') {}
-    if (event.code === 'ERROR') {
-        console.log(event)
-    }
+    if (event.code === 'ERROR') console.log(event)
 });
   
 
 browserSync.init({
-    server: "./dist",
-    files: ["dist/css/bundle.css", "dist/**/*.js", "dist/index.html"],
+    server: "./",
+    files: ["./lib/**/*.js", "./index.html"],
     open: false
 })
