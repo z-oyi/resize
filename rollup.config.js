@@ -26,7 +26,7 @@ const config = [
         output: {
             file: join('./', pkg.main),
             format: 'umd',
-            name: 'OAnimation', 
+            name: 'resize', 
         },
         plugins: [
             tsPlugin,
@@ -39,7 +39,7 @@ const config = [
         output: {
             file: join('./', pkg.module),
             format: 'es',
-            name: 'OAnimation',
+            name: 'resize',
         },
         plugins: [tsPlugin]
     },

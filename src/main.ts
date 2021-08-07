@@ -6,7 +6,7 @@ const attribute: {[key:string]: string} = {
     'data': 'about:blank'
 }
 
-const oresize = function (element: HTMLElement, eventCallback: (size: {width: number, height: number}) => void):void {
+const resize = function (element: HTMLElement, eventCallback: (size: {width: number, height: number}) => void):void {
     let position = window.getComputedStyle(element).position
     if (position === 'static' || position === '') {
         element.style.position = 'relative'
@@ -30,4 +30,4 @@ const oresize = function (element: HTMLElement, eventCallback: (size: {width: nu
     element.appendChild(objectElement)
 }
 
-export default oresize
+export default resize
