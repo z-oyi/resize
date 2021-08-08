@@ -1,13 +1,12 @@
 const rollup = require('rollup')
-const pluginBabel = require('@rollup/plugin-buble')
-
+const resolve  = require('rollup-plugin-node-resolve') 
 const ts = require('rollup-plugin-typescript2')
 const path = require('path')
 const join = (...args) => path.resolve(...args);
 const browserSync = require("browser-sync").create();
 const getPath = _path => path.resolve(__dirname, _path)
 const pkg =  require('./package.json')
-const dts = require('rollup-plugin-dts').default
+
 
 const extensions = [
     '.js',
@@ -22,7 +21,7 @@ const tsPlugin = ts({
 
 const config = [
     {
-        input: join('./src/main.ts'),
+        input: join('./src/resize.ts'),
         output: {
             file: join('./', pkg.main),
             format: 'umd',
@@ -30,26 +29,8 @@ const config = [
         },
         plugins: [
             tsPlugin,
-            pluginBabel()
+            resolve()
         ],
-        
-    },
-    {
-        input: join('./src/main.ts'),
-        output: {
-            file: join('./', pkg.module),
-            format: 'es',
-            name: 'resize',
-        },
-        plugins: [tsPlugin]
-    },
-    {
-        input: join('./src/main.ts'),
-        output: {
-          file: join('./', pkg.types),
-          format: 'es',
-        },
-        plugins: [dts()],
     },
 ]
 

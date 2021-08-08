@@ -1,56 +1,16 @@
 
 import pluginBabel from '@rollup/plugin-buble'
-import ts from 'rollup-plugin-typescript2'
-import path from 'path'
-import pkg from './package.json'
-import dts from 'rollup-plugin-dts'
+import resolve from 'rollup-plugin-node-resolve'
 
-const join = (...args) => path.resolve(...args);
-const getPath = _path => path.resolve(__dirname, _path)
-
-
-const extensions = [
-    '.js',
-    '.ts',
-    '.tsx'
-]
-
-const tsPlugin = ts({
-    tsconfig: getPath('./tsconfig.json'),
-    extensions
-})
-
-const config = [
-    {
-        input: join('./src/main.ts'),
-        output: {
-            file: join('./', pkg.main),
-            format: 'umd',
-            name: 'resize', 
-        },
-        plugins: [
-            tsPlugin,
-            pluginBabel()
-        ],
-        
+module.exports = {
+    input: 'lib/resize.js',
+    output: {
+        file: 'lib/resize.umd.js',
+        format: 'umd',
+        name: 'resize'
     },
-    {
-        input: join('./src/main.ts'),
-        output: {
-            file: join('./', pkg.module),
-            format: 'es',
-            name: 'resize',
-        },
-        plugins: [tsPlugin]
-    },
-    {
-        input: join('./src/main.ts'),
-        output: {
-          file: join('./', pkg.types),
-          format: 'es',
-        },
-        plugins: [dts()],
-    },
-]
-
-export default config;
+    plugins: [
+        resolve(),
+        pluginBabel()
+    ]
+};
